@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+        <%= title %>
+    </title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://kit.fontawesome.com/b327bbcf02.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="ajaxbg">
+        <div class="ajaxinner">
+            <h3>You are being redirected to paypal...</h3>
+            <img src="/images/ajax-loader.gif" alt="">
+        </div>
+    </div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">InstaWeb CMS</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav nav">
+                    <% pages.forEach(function(page){ %>
+                        <% if (page.slug == "home") { %>
+                            <li>
+                                <a class="nav-link" href="/">
+                                    <%= page.title %>
+                                </a>
+                            </li>
+
+                            <% } else { %>
+                                <li>
+                                    <a class="nav-link" href="/<%= page.slug %>">
+                                        <%= page.title %>
+                                    </a>
+                                </li>
+                                <% } %>
+                                    <% }); %>
+                </ul>
+
+                <ul class="nav navbar-nav ml-auto">
+                    <li>
+                        <a class="nav-link" href="/cart/checkout">My cart (
+                        <% if (typeof cart !== "undefined"){ %>
+                            <%= cart.length %>
+                        <% } else { %>
+                            0
+                        <% } %>
+
+                        )</a>
+                    </li>
+                    <% if (user){%>
+                        <li class="nav-link"> Hello,
+                            <%= user.username%>
+                        </li>
+                        <li> <a class="nav-link" href="/users/logout">Log Out</a> </li>
+                        <%} else {%>
+                            <li>
+                                <a class="nav-link" href="/users/register"> Register</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="/users/login"> Log In</a>
+                            </li>
+                            <%}%>
+                                <% if (user && user.admin == 1){%>
+                                    <li> <a class="nav-link" href="/admin/pages">Admin Area</a> </li>
+                                    <%}%>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        <br>
+        <%- messages('messages', locals) %>
+            <br>
+            <% if (errors){ %>
+                <% errors.forEach(function (error) { %>
+
+                    <div class="alert alert-danger">
+                        <%= error.msg %>
+                    </div>
+                    <% }); %>
+                        <% } %>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-3">
+                                    <h3>Categories</h3>
+                                    <ul class="list-group sideBar">
+                                        <a href="/products/">
+                                            <li class="list-group-item">All products</li>
+                                        </a>
+                                        <% categories.forEach(function(c){ %>
+                                            <a href="/products/<%= c.slug %>">
+                                                <li class="list-group-item">
+                                                    <%= c.title %>
+                                                </li>
+                                            </a>
+                                            <% }); %>
+
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-md-1"></div>
+                                <div class="col-xs-12 col-md-8">
